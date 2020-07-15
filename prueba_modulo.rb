@@ -15,11 +15,30 @@ def request(url_requested)
     return JSON.parse(response.body)
 end
 
-body = request('https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=10&api_key=cEDpXFgIjWAuVZ76ec4cAh45w2ZhZ7MX8G3YWrIt')
+body = pp request('https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=10&api_key=cEDpXFgIjWAuVZ76ec4cAh45w2ZhZ7MX8G3YWrIt')
 array = body["photos"]
 
 values = (array.map {|photos| [photos["img_src"]]})
 name = (array.map {|name| [name["camera"]]})
+
+
+def build_web_page(array)
+    
+    output = "\n<html>\n\t<head>\n\t</head>\n\t<body>\n\t\t<ul>"
+    
+    array.each do |array_int|
+        array_int.each do |ele|
+            output += "\n\t\t\t<li><img src= #{ele} /> </li>\n"
+        end
+    end
+    
+    output += "\n\t\t</ul>\n\t<body>\n</html>"
+    File.write('index.html', output)
+end
+
+
+build_web_page(values)
+
 
 def photos_count(name)
     new_hash = {}
@@ -45,24 +64,5 @@ def photos_count(name)
 end
 
 print photos_count(name)
-
-def build_web_page(array)
-    
-    output = "\n<html>\n\t<head>\n\t</head>\n\t<body>\n\t\t<ul>"
-
-    array.each do |array_int|
-        array_int.each do |ele|
-            output += "\n\t\t\t<li><img src= #{ele} /> </li>\n"
-        end
-    end
-    
-    output += "\n\t\t</ul>\n\t<body>\n</html>"
-    File.write('index.html', output)
-end
-
-
-build_web_page(values)
-
-
 
 
