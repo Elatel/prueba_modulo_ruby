@@ -15,7 +15,7 @@ def request(url_requested)
     return JSON.parse(response.body)
 end
 
-body = pp request('https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=10&api_key=cEDpXFgIjWAuVZ76ec4cAh45w2ZhZ7MX8G3YWrIt')
+body = request('https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=10&api_key=cEDpXFgIjWAuVZ76ec4cAh45w2ZhZ7MX8G3YWrIt')
 array = body["photos"]
 
 values = (array.map {|photos| [photos["img_src"]]})
